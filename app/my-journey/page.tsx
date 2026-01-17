@@ -4,6 +4,7 @@ const Profile = () => {
     return (
         <main className="items-center">
             <p>Profile Page Where the user journey and etc will show</p>
+            <p>Testing git</p>
         </main>
     );
 };
