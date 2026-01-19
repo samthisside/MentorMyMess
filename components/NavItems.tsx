@@ -4,6 +4,7 @@ import Link from "next/link";
 import {usePathname} from "next/navigation";
 import {cn} from "@/lib/utils";
 
+
 const navItems = [
     {label: 'Home', href: '/'},
     {label: 'Companions', href: '/companions'},
@@ -26,8 +27,11 @@ const NavItems = () => {
                     </Link>
                 ))
             }
+
         </nav>
-    );
+
+    )
+        ;
 };
 
 export default NavItems;
