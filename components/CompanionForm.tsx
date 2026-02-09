@@ -40,6 +40,8 @@ import {
 } from "@/components/ui/input-group"
 import {subjects} from "@/constants";
 import {Textarea} from "@/components/ui/textarea";
+import {createCompanions} from "@/lib/actions/companions.actions";
+import {redirect} from "next/navigation";
 
 const formSchema = z.object({
     // title: z
@@ -91,9 +93,16 @@ const CompanionForm = () => {
         },
     })
 
-    const onSubmit = (data: z.infer<typeof formSchema>) => {
+    const onSubmit = async (data: z.infer<typeof formSchema>) => {
         // Do something with the form values.
-        console.log(data)
+        // console.log(data)
+        const companion = await createCompanions(data)
+        if (companion) {
+            redirect(`/companions/${companion.id}`)
+        } else {
+            console.log('Failed to create companion')
+            redirect('/')
+        }
     }
 
     return (
