@@ -60,11 +60,11 @@ const formSchema = z.object({
     subject:
         z.string()
             .min(1, "Subject is Required")
-            .max(30, "Maximum number of characters is 30"),
+            .max(50, "Maximum number of characters is 50"),
     topic:
         z.string()
             .min(1, "Topic is Required")
-            .max(30, "Maximum number of characters is 30"),
+            .max(100, "Maximum number of characters is 100"),
     voice:
         z.string()
             .min(1, "Voice is Required")

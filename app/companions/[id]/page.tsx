@@ -1,9 +1,56 @@
 import React from 'react';
+import {getCompanions} from "@/lib/actions/companions.actions";
+import {currentUser} from "@clerk/nextjs/server";
+import {redirect} from "next/navigation"
+import {getSubjectColor} from "@/lib/utils";
+import Image from 'next/image'
 
-const CompanionSessions = () => {
+interface CompanionSessionPageProps {
+    params: Promise<{ id: string }>
+}
+
+//params /url/{id} -> id
+//searchParams /url?key=value&key1=value1
+
+const CompanionSessions = async ({params}: CompanionSessionPageProps) => {
+    const {id} = await params;
+    const companion = await getCompanions(id);
+    const user = await currentUser();
+
+    if (!user) redirect('/sign-in');
+    if (!companion) redirect('/companions');
+
+    console.log('Companion sessions loaded', companion);
+
     return (
-        <main className="items-center">
-            <p>Dynamic Routed Actual Companion Page (sessions)</p>
+        <main>
+            <article className="flex rounded-border justify-between p-6 max-md:flex-col">
+
+                <div className="flex items-center gap-2">
+                    <div className="size-[72px] flex items-center justify-center rouned-lg max-md:hidden"
+                         style={{backgroundColor: getSubjectColor(companion.subject)}}>
+                         <Image src={`/icons/${companion.subject}.svg`}
+                         alt={companion.subject}  width={35} height={35} />
+
+                    </div>
+                    <div className="flex-col gap-2">
+                        <div className="flex items-center gap-2">
+                            <p className="font-bold text-2xl">
+                                {companion.name}
+                            </p>
+                            <div className="subject-badge max-sm:hidden">
+                                {companion.subject}
+                            </div>
+                        </div>
+                        <p className="text-lg">
+                            {companion.topic}
+                        </p>
+                    </div>
+                </div>
+                <div className="items-start text-2xl max-md:hidden">
+                    {companion.duration} minutes
+                </div>
+            </article>
         </main>
     );
 };
